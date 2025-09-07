@@ -1,0 +1,19 @@
+# Dockerfile
+FROM arm64v8/ubuntu:22.04
+
+# Install base utilities
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    bash 
+
+# Install dev tools (run apt-get update again)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    vim \
+    tmux \
+    git
+
+# Clone your repo
+RUN git clone https://github.com/samlovelace/vision.git /robot_ws/src/vision
+
+# Set entrypoint (ensure the script is executable inside container)
+ENTRYPOINT ["/robot_ws/src/vision/setup.sh"]
